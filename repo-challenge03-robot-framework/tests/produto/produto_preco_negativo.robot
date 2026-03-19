@@ -5,13 +5,13 @@ Suite Setup      Iniciar Sessao API
 Suite Teardown   Limpar Usuarios Criados
 
 *** Test Cases ***
-Nao permitir preco zero
+Nao permitir preco negativo
     ${resp_user}    ${email}=    Criar Usuario Admin
     ${token}=    Obter Token    ${email}
 
     ${body}=    Create Dictionary
-    ...    nome=produto preco zero
-    ...    preco=${PRECO_ZERO}
+    ...    nome=produto preco negativo
+    ...    preco=${PRECO_NEGATIVO}
     ...    descricao=${DESCRICAO_VALIDA}
     ...    quantidade=${QUANTIDADE_VALIDA}
     ${headers}=    Create Dictionary    Authorization=${token}

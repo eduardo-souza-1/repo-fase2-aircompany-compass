@@ -1,0 +1,14 @@
+# results do robot framework 
+results/
+output.xml
+log.html
+report.html
+
+#cache do python 
+__pycache__/
+*pyc 
+
+#Virtual Enviroment
+venv/
+.env/
+

@@ -9,7 +9,7 @@ ${PRECO_VALIDO}       ${100}
 ${QUANTIDADE_VALIDA}  ${5}
 ${DESCRICAO_VALIDA}   produto de teste automatizado
 
-${PRECO_ZERO}         ${0}
+${PRECO_NEGATIVO}         ${-50}
 ${QUANTIDADE_NEGATIVA}    ${-10}
 
 ${TOKEN_INVALIDO}     Bearer token_fake_invalido

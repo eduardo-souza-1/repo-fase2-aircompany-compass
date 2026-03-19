@@ -1,6 +1,6 @@
 # Challenge 03  Automacao de Testes de API com Robot Framework
 
-Testes automatizados da API [ServeRest](https://compassuol.serverest.dev) cobrindo fluxos de usuario, produto, carrinho e autenticacao.
+Este readme possui os testes automatizados da API [ServeRest](https://compassuol.serverest.dev) cobrindo fluxos de usuario, produto, carrinho e autenticacao.
 
 
 ## Estrutura

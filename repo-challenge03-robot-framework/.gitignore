@@ -1,7 +1,16 @@
-# results do robot framework 
+# Robot Framework
 results/
-output.xml
 log.html
 report.html
+output.xml
+*.pyc
+__pycache__/
 
+# Python
+venv/
+.env
 
+# IDEs
+.vscode/
+.idea/
+*.swp

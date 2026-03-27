@@ -1,67 +1,58 @@
-# Challenge 03  Automacao de Testes de API com Robot Framework
+# Suite de Testes da API ServeRest
 
-Este readme possui os testes automatizados da API [ServeRest](https://compassuol.serverest.dev) cobrindo fluxos de usuario, produto, carrinho e autenticacao.
-
+Suíte de testes simples e limpa em Robot Framework para a API ServeRest.
 
 ## Estrutura
 
+```
+.
+├── resources/
+│   └── api.robot              # Todas as keywords da API em um único arquivo
+├── tests/
+│   ├── user_tests.robot       # Testes de validação de usuários
+│   ├── product_tests.robot    # Testes de validação de produtos
+│   ├── cart_tests.robot       # Testes de autenticação do carrinho
+│   ├── contract_tests.robot   # Testes de contrato da API
+│   └── flow_tests.robot       # Testes de fluxo end-to-end
+└── requirements.txt
+```
 
-resources/
-  api_keywords.robot   # keywords reutilizaveis e controle de teardown
-  massa.robot          # variaveis centralizadas de dados e configuracao
+## Instalação
 
-tests/
-  carrinho/            # autenticacao no acesso ao carrinho
-  contrato/            # contrato do response de login
-  fluxo/               # fluxo positivo de compra e fluxo negativo de permissao
-  produto/             # validacoes de criacao de produto
-  usuario/             # validacoes de criacao de usuario
-
-
-## Pre-requisitos
-
-- Python 3.8+
-- pip
-
-
-
-## Instalacao
-
+```bash
 pip install -r requirements.txt
+```
 
+## Executando os Testes
 
+Executar todos os testes:
+```bash
+robot tests/
+```
 
-## Execucao
+Executar arquivo específico:
+```bash
+robot tests/user_tests.robot
+```
 
-Rodar todos os testes:
+Executar por tag:
+```bash
+robot --include negativo tests/
+robot --include smoke tests/
+```
 
-robot -d results tests
+## Cobertura de Testes
 
+- **Testes de Usuário**: Validação de email, segurança XSS
+- **Testes de Produto**: Validação de preço/quantidade, autorização
+- **Testes de Carrinho**: Validação de autenticação
+- **Testes de Contrato**: Estrutura da resposta, formato JWT
+- **Testes de Fluxo**: Fluxo completo de compra (E2E)
 
-Rodar uma suite especifica:
+## Tags
 
-robot -d results tests/fluxo
-robot -d results tests/produto
-
-
-Rodar um unico arquivo:
-
-robot -d results tests/fluxo/fluxo_positivo.robot
-
-
-## Relatorio
-
-Apos a execucao os resultados ficam em results/:
-
-
-results/
-  log.html      # log detalhado de cada keyword executada
-  report.html   # visao geral de passes e falhas
-  output.xml    # saida bruta para integracao com CI
-
-Abra report.html no navegador para visualizar o resultado completo.
-
-
-## Massa de dados e limpeza
-
-Todos os dados criados durante os testes (usuarios e produtos) sao deletados automaticamente ao final de cada suite via Suite Teardown. Cada execucao comeca e termina com o ambiente no mesmo estado  sem residuos no banco.
+- `positivo` - Testes de caminho feliz
+- `negativo` - Testes de validação de erro
+- `seguranca` - Testes relacionados à segurança
+- `smoke` - Testes críticos de smoke
+- `e2e` - Testes de fluxo end-to-end

@@ -4,7 +4,7 @@ Projeto de automação de testes para a API ServeRest utilizando Robot Framework
 
 ## 📋 Descrição
 
-Suite de testes automatizados para validação do domínio `/usuarios` da API ServeRest, incluindo cenários positivos, negativos, regras de negócio e evidências de bugs de segurança.
+Suite de testes automatizados para validação dos domínios `/usuarios`, `/login` e `/produtos` da API ServeRest, incluindo cenários positivos, negativos, regras de negócio e evidências de bugs de segurança.
 
 ## 🚀 Tecnologias
 
@@ -16,18 +16,21 @@ Suite de testes automatizados para validação do domínio `/usuarios` da API Se
 ## 📁 Estrutura do Projeto
 
 ```
-serveRest-qa-reorganizado/
-├── challenge04-genai/
-│   ├── resources/
-│   │   ├── api.robot          # Configurações de sessão API
-│   │   └── keywords.robot     # Keywords reutilizáveis
-│   ├── tests/
-│   │   └── usuarios.robot     # Suite de testes de usuários
-│   └── variables/
-│       └── variables.py       # Variáveis centralizadas
-├── .gitignore
-├── README.md
-└── requirements.txt
+resources/
+│   ├── api.robot              # Configurações de sessão API
+│   ├── keywords.robot         # Keywords reutilizáveis usuários/
+│   ├── login_keywords.robot   # Keywords de autenticação
+│   └── produto_keywords.robot # Keywords de produtos
+tests/
+│   ├── usuarios.robot         # Suite de testes de usuários
+│   ├── login.robot            # Suite de testes de login
+│   └── produtos.robot         # Suite de testes de produtos
+variables/
+│   └── variables.py           # Variáveis centralizadas
+results/                       # Relatórios gerados (git ignored)
+.gitignore
+README.md
+requirements.txt
 ```
 
 ## 🔧 Instalação
@@ -35,7 +38,7 @@ serveRest-qa-reorganizado/
 1. Clone o repositório:
 ```bash
 git clone <url-do-repositorio>
-cd serveRest-qa-reorganizado
+cd <nome-do-repositorio>
 ```
 
 2. Instale as dependências:
@@ -45,34 +48,46 @@ pip install -r requirements.txt
 
 ## ▶️ Execução dos Testes
 
+### Executar todos os testes de um domínio:
+```bash
+# Testes de usuários
+robot tests/usuarios.robot
+
+# Testes de login
+robot tests/login.robot
+
+# Testes de produtos
+robot tests/produtos.robot
+```
+
 ### Executar todos os testes:
 ```bash
-robot challenge04-genai/tests/usuarios.robot
+robot tests/
 ```
 
 ### Executar testes por tag:
 ```bash
 # Apenas testes positivos
-robot --include positivo challenge04-genai/tests/usuarios.robot
+robot --include positivo tests/
 
 # Apenas testes negativos
-robot --include negativo challenge04-genai/tests/usuarios.robot
+robot --include negativo tests/
 
 # Testes de segurança
-robot --include seguranca challenge04-genai/tests/usuarios.robot
+robot --include seguranca tests/
 
 # Teste específico
-robot --include CT-U01 challenge04-genai/tests/usuarios.robot
+robot --include CT-U01 tests/usuarios.robot
 ```
 
 ### Gerar relatório customizado:
 ```bash
-robot --outputdir results --name "ServeRest Tests" challenge04-genai/tests/usuarios.robot
+robot --outputdir results --name "ServeRest Tests" tests/
 ```
 
 ## 📊 Cobertura de Testes
 
-### Casos de Teste Implementados:
+### Usuários (CT-U):
 
 | ID | Descrição | Tipo | Status |
 |---|---|---|---|
@@ -85,6 +100,33 @@ robot --outputdir results --name "ServeRest Tests" challenge04-genai/tests/usuar
 | CT-U09 | GET com filtro sem correspondência | Negativo | ✅ |
 | CT-U10 | PUT com UPSERT em ID inexistente | Regra de Negócio | ✅ |
 
+### Login (CT-L):
+
+| ID | Descrição | Tipo | Status |
+|---|---|---|---|
+| CT-L01 | Login com credenciais válidas | Positivo | ✅ |
+| CT-L02 | Login com password incorreto | Negativo | ✅ |
+| CT-L03 | Validar contrato do response | Contrato | ✅ |
+| CT-L05 | Email inexistente (user enumeration) | Negativo/Segurança | ✅ |
+
+### Produtos (CT-P):
+
+| ID | Descrição | Tipo | Status |
+|---|---|---|---|
+| CT-P01 | Criar produto como admin | Positivo | ✅ |
+| CT-P02 | RBAC: não-admin rejeitado | Negativo/Regra | ✅ |
+| CT-P03 | Token inválido | Negativo | ✅ |
+| CT-P04 | Preço negativo | Negativo | ✅ |
+| CT-P05 | Quantidade negativa | Negativo | ✅ |
+| CT-P06 | Campo nome ausente | Negativo | ✅ |
+| CT-P07 | Preço como string (BUG-03) | Bug | ⚠️ |
+| CT-P08 | Nome duplicado | Negativo | ✅ |
+| CT-P09 | DELETE com ID inexistente | Negativo | ✅ |
+| CT-P10 | Estrutura da listagem | Positivo/Contrato | ✅ |
+| CT-P11 | Contrato do response de criação | Contrato | ✅ |
+| CT-P12 | Filtro sem resultado | Negativo | ✅ |
+| CT-P13 | PUT sem token | Negativo | ✅ |
+
 ⚠️ = Testes que evidenciam bugs conhecidos (falham intencionalmente)
 
 ## 🐛 Bugs Evidenciados
@@ -93,14 +135,22 @@ robot --outputdir results --name "ServeRest Tests" challenge04-genai/tests/usuar
 - **Descrição**: API aceita XSS no campo nome
 - **Referência**: OWASP A03:2021 - Injection
 - **Teste**: CT-U05
+- **Impacto**: Vulnerabilidade de segurança - Stored XSS
 
 ### BUG-02 (Média Severidade)
 - **Descrição**: API aceita nome com apenas caracteres especiais
 - **Teste**: CT-U06
+- **Impacto**: Validação de entrada inadequada
 
 ### BUG-01 Parcial
 - **Descrição**: API aceita campo nome vazio
 - **Teste**: CT-U07
+- **Impacto**: Campo obrigatório não validado
+
+### BUG-03 (Média Severidade)
+- **Descrição**: API aceita preço como string (coerção de tipo)
+- **Teste**: CT-P07
+- **Impacto**: Risco em cálculos de total
 
 ## 🔗 API Base
 

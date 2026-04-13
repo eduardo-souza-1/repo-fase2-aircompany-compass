@@ -45,3 +45,13 @@ NOME_VAZIO     = ""
 
 # ── Token inválido simulado ───────────────────────────────────────────
 TOKEN_INVALIDO = "Bearer token_fake_adulterado_para_teste"
+
+# ── Mensagens esperadas — Carrinhos ──────────────────────────────────
+MSG_CARRINHO_OK            = "Cadastro realizado com sucesso"
+MSG_CARRINHO_DUPLICADO     = "Não é permitido ter mais de 1 carrinho"
+MSG_ESTOQUE_INSUFICIENTE   = "Produto não possui quantidade suficiente"
+MSG_PRODUTO_NAO_ENCONTRADO = "Produto não encontrado"
+MSG_PRODUTO_DUPLICADO_CART = "Não é permitido possuir produto duplicado"
+MSG_CONCLUIR_OK            = "Registro excluido com sucesso"
+MSG_CANCELAR_OK            = "Registro excluido com sucesso. Estoque restaurado"
+MSG_CARRINHO_NAO_ENCONTRADO = "Não foi encontrado carrinho para esse usuário"

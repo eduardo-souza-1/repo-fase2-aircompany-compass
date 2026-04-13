@@ -97,6 +97,26 @@ CT-U03 - Rejeitar criacao de usuario sem campo email obrigatorio
     Validar Status Code        ${resp}    400
     Validar Mensagem Contem    ${resp}    email
 
+CT-U04 - Rejeitar criacao de usuario sem campo nome obrigatorio
+    # Caso   : CT-U04
+    # Tipo   : Negativo
+    # Rota   : POST /usuarios (payload sem campo nome)
+    # Oráculo: 400 · message contém "nome"
+    [Documentation]    Verifica que payload sem o campo obrigatório "nome" retorna 400.
+    ...                A message deve mencionar o campo ausente.
+    [Tags]    usuario    negativo    CT-U04
+
+    ${email}=    FakerLibrary.Email
+    ${body}=    Create Dictionary
+    ...    email=${email}
+    ...    password=${PASSWORD}
+    ...    administrador=${ADMIN_FLAG}
+
+    ${resp}=    Criar Usuario Com Body Customizado    ${body}
+
+    Validar Status Code        ${resp}    400
+    Validar Mensagem Contem    ${resp}    nome
+
 CT-U09 - GET usuarios com filtro de email inexistente retorna lista vazia
     # Caso   : CT-U09
     # Tipo   : Negativo / Filtro
@@ -111,6 +131,24 @@ CT-U09 - GET usuarios com filtro de email inexistente retorna lista vazia
 
     Validar Status Code    ${resp}    200
     Validar Lista Vazia    ${resp}
+
+CT-U08 - GET usuarios retorna listagem com estrutura valida
+    # Caso   : CT-U08
+    # Tipo   : Positivo / Contrato
+    # Rota   : GET /usuarios
+    # Oráculo: 200 · campo "quantidade" (int) · campo "usuarios" (list)
+    [Documentation]    Verifica que GET /usuarios retorna 200 e estrutura de listagem válida
+    ...                com os campos "quantidade" e "usuarios" nos tipos esperados.
+    [Tags]    usuario    positivo    contrato    CT-U08
+
+    ${resp}=    GET On Session    ${SESSION}    /usuarios    expected_status=200
+
+    Validar Status Code    ${resp}    200
+    ${json}=    Set Variable    ${resp.json()}
+    Dictionary Should Contain Key    ${json}    quantidade
+    Dictionary Should Contain Key    ${json}    usuarios
+    Should Be True    isinstance($json['quantidade'], int)
+    Should Be True    isinstance($json['usuarios'], list)
 
 
 # ════════════════════════════════════════════════════════════════════

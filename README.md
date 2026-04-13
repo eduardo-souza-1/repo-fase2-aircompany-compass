@@ -4,7 +4,7 @@ Projeto de automação de testes para a API ServeRest utilizando Robot Framework
 
 ## 📋 Descrição
 
-Suite de testes automatizados para validação dos domínios `/usuarios`, `/login` e `/produtos` da API ServeRest, incluindo cenários positivos, negativos, regras de negócio e evidências de bugs de segurança.
+Suite de testes automatizados para validação dos domínios `/usuarios`, `/login`, `/produtos` e `/carrinhos` da API ServeRest, incluindo cenários positivos, negativos, regras de negócio e evidências de bugs de segurança.
 
 ## 🚀 Tecnologias
 
@@ -18,13 +18,15 @@ Suite de testes automatizados para validação dos domínios `/usuarios`, `/logi
 ```
 resources/
 │   ├── api.robot              # Configurações de sessão API
-│   ├── keywords.robot         # Keywords reutilizáveis usuários/
+│   ├── keywords.robot         # Keywords reutilizáveis (usuários)
 │   ├── login_keywords.robot   # Keywords de autenticação
-│   └── produto_keywords.robot # Keywords de produtos
+│   ├── produto_keywords.robot # Keywords de produtos
+│   └── carrinho_keywords.robot # Keywords de carrinhos
 tests/
 │   ├── usuarios.robot         # Suite de testes de usuários
 │   ├── login.robot            # Suite de testes de login
-│   └── produtos.robot         # Suite de testes de produtos
+│   ├── produtos.robot         # Suite de testes de produtos
+│   └── carrinhos.robot        # Suite de testes de carrinhos
 variables/
 │   └── variables.py           # Variáveis centralizadas
 results/                       # Relatórios gerados (git ignored)
@@ -58,6 +60,9 @@ robot tests/login.robot
 
 # Testes de produtos
 robot tests/produtos.robot
+
+# Testes de carrinhos
+robot tests/carrinhos.robot
 ```
 
 ### Executar todos os testes:
@@ -94,9 +99,11 @@ robot --outputdir results --name "ServeRest Tests" tests/
 | CT-U01 | Criar usuário administrador válido | Positivo | ✅ |
 | CT-U02 | Rejeitar email duplicado | Negativo | ✅ |
 | CT-U03 | Rejeitar campo email ausente | Negativo | ✅ |
+| CT-U04 | Rejeitar campo nome ausente | Negativo | ✅ |
 | CT-U05 | Evidenciar XSS no campo nome | Bug/Segurança | ⚠️ |
 | CT-U06 | Evidenciar nome com caracteres especiais | Bug | ⚠️ |
 | CT-U07 | Evidenciar nome vazio aceito | Bug | ⚠️ |
+| CT-U08 | GET listar todos os usuários | Positivo/Contrato | ✅ |
 | CT-U09 | GET com filtro sem correspondência | Negativo | ✅ |
 | CT-U10 | PUT com UPSERT em ID inexistente | Regra de Negócio | ✅ |
 
@@ -126,6 +133,18 @@ robot --outputdir results --name "ServeRest Tests" tests/
 | CT-P11 | Contrato do response de criação | Contrato | ✅ |
 | CT-P12 | Filtro sem resultado | Negativo | ✅ |
 | CT-P13 | PUT sem token | Negativo | ✅ |
+
+### Carrinhos (CT-C):
+
+| ID | Descrição | Tipo | Status |
+|---|---|---|---|
+| CT-C01 | Criar carrinho com produto válido | Positivo | ✅ |
+| CT-C02 | Rejeitar idProduto inexistente | Negativo | ✅ |
+| CT-C03 | Rejeitar segundo carrinho para mesmo usuário | Negativo | ✅ |
+| CT-C04 | Rejeitar quantidade maior que estoque | Negativo | ✅ |
+| CT-C05 | Rejeitar idProduto duplicado no array | Negativo | ✅ |
+| CT-C06 | Concluir compra (DELETE) | Positivo | ✅ |
+| CT-C07 | Cancelar compra (DELETE /concluir-compra) | Positivo | ✅ |
 
 ⚠️ = Testes que evidenciam bugs conhecidos (falham intencionalmente)
 

@@ -235,7 +235,7 @@ CT-U06 - Evidenciar nome com apenas caracteres especiais - BUG-02
     # Oráculo correto: 400. O assert abaixo falha enquanto o bug existir.
     Validar Status Code    ${resp}    400
 
-CT-U07 - Evidenciar campo nome com string vazia aceito pela API - BUG-01 parcial
+CT-U07 - Evidenciar campo nome com string vazia aceito pela API - BUG-03 
     # Caso   : CT-U07
     # Tipo   : Bug / Validação de campo obrigatório
     # Rota   : POST /usuarios (nome="")

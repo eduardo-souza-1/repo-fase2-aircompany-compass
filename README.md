@@ -161,12 +161,12 @@ robot --outputdir results --name "ServeRest Tests" tests/
 - **Teste**: CT-U06
 - **Impacto**: Validação de entrada inadequada
 
-### BUG-01 Parcial
+### BUG-03 (Média Severidade)
 - **Descrição**: API aceita campo nome vazio
 - **Teste**: CT-U07
 - **Impacto**: Campo obrigatório não validado
 
-### BUG-03 (Média Severidade)
+### BUG-04 (Média Severidade)
 - **Descrição**: API aceita preço como string (coerção de tipo)
 - **Teste**: CT-P07
 - **Impacto**: Risco em cálculos de total

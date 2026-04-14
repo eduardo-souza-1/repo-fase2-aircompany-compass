@@ -276,7 +276,7 @@ CT-P11 - Validar contrato completo do response de criacao de produto
 # BLOCO 4 — EVIDÊNCIAS DE BUG (falham intencionalmente)
 # ════════════════════════════════════════════════════════════════════
 
-CT-P07 - Evidenciar coercao de tipo no campo preco - BUG-03
+CT-P07 - Evidenciar coercao de tipo no campo preco - BUG-04
     # Caso   : CT-P07
     # Tipo   : Bug / Validação de tipo (coerção implícita)
     # Rota   : POST /produtos (preco="10" como string JSON)
